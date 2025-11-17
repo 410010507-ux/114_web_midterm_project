@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+    <meta charset="UTF-8" />
+    <title>健身運動規劃器</title>
+    <link rel="stylesheet" href="style.css" />
+    <link
+        href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+        rel="stylesheet"
+    />
+</head>
+<body>
+    <header class="bg-dark text-white py-3">
+        <div class="container d-flex justify-content-between align-items-center">
+            <h1 class="h3 mb-0">健身運動規劃器</h1>
+            <div class="d-flex align-items-center gap-3">
+            <nav>
+                <a href="#profile" class="text-white me-3">個人資料</a>
+                <a href="#workout" class="text-white me-3">運動紀錄</a>
+                <a href="#progress" class="text-white">目標進度</a>
+            </nav>
+            <button id="toggle-theme" class="btn btn-sm btn-outline-light">
+                深色模式
+            </button>
+            </div>
+        </div>
+        </header>
+
+    <main class="container my-4">
+        <!--個人資料-->
+        <section id="profile" class="mb-5">
+        <h2 class="h4 mb-3">個人資料與目標設定</h2>
+        <form id="profile-form" class="row g-3" novalidate>
+            <div class="col-md-4">
+            <label for="name" class="form-label">姓名</label>
+            <input type="text" id="name" class="form-control" />
+            </div>
+
+            <div class="col-md-4">
+            <span class="form-label d-block">性別</span>
+            <div class="form-check form-check-inline">
+                <input class="form-check-input" type="radio" name="gender" id="male" value="male" required />
+                <label class="form-check-label" for="male">男</label>
+            </div>
+            <div class="form-check form-check-inline">
+                <input class="form-check-input" type="radio" name="gender" id="female" value="female" required />
+                <label class="form-check-label" for="female">女</label>
+            </div>
+            </div>
+
+            <div class="col-md-4">
+            <label for="age" class="form-label">年齡</label>
+            <input type="number" id="age" class="form-control" min="10" max="100" required />
+            </div>
+
+            <div class="col-md-4">
+            <label for="height" class="form-label">身高 (cm)</label>
+            <input type="number" id="height" class="form-control" min="100" max="250" required />
+            </div>
+
+            <div class="col-md-4">
+            <label for="weight" class="form-label">體重 (kg)</label>
+            <input type="number" id="weight" class="form-control" min="30" max="200" required />
+            </div>
+
+            <div class="col-md-4">
+            <label for="targetWeight" class="form-label">目標體重 (kg)</label>
+            <input type="number" id="targetWeight" class="form-control" min="30" max="200" required />
+            </div>
+
+            <div class="col-md-6">
+            <label for="weeklyTarget" class="form-label">每週目標運動時間 (分鐘)</label>
+            <input type="number" id="weeklyTarget" class="form-control" min="10" required />
+            </div>
+
+            <div class="col-12">
+            <button type="submit" class="btn btn-primary me-2">儲存基本資料</button>
+            <button type="button" id="calc-bmi" class="btn btn-primary me-2">
+                計算 BMI
+            </button>
+            <button type="button" id="delete-profile" class="btn btn-outline-danger">
+                刪除個人資料
+            </button>
+            </div>
+        </form>
+
+        <div id="profile-result" class="mt-3"></div>
+        <div id="profile-card" class="mt-3"></div>
+        </section>
+
+        <!--運動紀錄-->
+        <section id="workout" class="mb-5">
+        <h2 class="h4 mb-3">新增運動紀錄</h2>
+        <form id="workout-form" class="row g-3" novalidate>
+            <div class="col-md-3">
+            <label for="workout-date" class="form-label">日期</label>
+            <input type="date" id="workout-date" class="form-control" required />
+            </div>
+
+            <div class="col-md-3">
+            <label for="workout-type" class="form-label">運動種類</label>
+            <select id="workout-type" class="form-select" required>
+                <option value="">請選擇</option>
+                <option value="慢跑">慢跑</option>
+                <option value="快走">快走</option>
+                <option value="重訓">重訓</option>
+                <option value="游泳">游泳</option>
+                <option value="瑜伽">瑜伽</option>
+                <option value="其他">其他</option>
+            </select>
+            </div>
+
+            <div class="col-md-3">
+            <label for="intensity" class="form-label">強度</label>
+            <select id="intensity" class="form-select" required>
+                <option value="">請選擇</option>
+                <option value="low">低</option>
+                <option value="medium">中</option>
+                <option value="high">高</option>
+            </select>
+            </div>
+
+            <div class="col-md-3">
+            <label for="minutes" class="form-label">時間 (分鐘)</label>
+            <input type="number" id="minutes" class="form-control" min="5" required />
+            </div>
+
+            <div class="col-12">
+            <label for="note" class="form-label">備註</label>
+            <input type="text" id="note" class="form-control" />
+            </div>
+
+            <div class="col-12">
+            <button type="submit" class="btn btn-success">加入運動紀錄</button>
+            </div>
+        </form>
+
+        <div id="workout-list" class="row mt-3 g-3"></div>
+        </section>
+
+        <!--進度條-->
+        <section id="progress" class="mb-5">
+        <h2 class="h4 mb-3">本週目標達成度</h2>
+        <p id="progress-text"></p>
+        <div class="progress">
+            <div
+            class="progress-bar"
+            id="progress-bar"
+            role="progressbar"
+            style="width: 0%"
+            ></div>
+        </div>
+        </section>
+    </main>
+
+    <footer class="text-center text-muted py-3">
+        <small>© 2025 健身運動規劃器</small>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>
